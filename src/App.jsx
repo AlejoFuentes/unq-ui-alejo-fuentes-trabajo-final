@@ -1,6 +1,14 @@
+import { BrowserRouter, Routes, Route } from 'react-router';
+
 const App = () => {
   return (
-    <Game></Game>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<StartGame />} />
+        <Route path="/game" element={<Game />} />
+        <Route path="/end" element={<EndGame />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
