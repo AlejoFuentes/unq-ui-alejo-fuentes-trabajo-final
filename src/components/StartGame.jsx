@@ -1,4 +1,3 @@
-import './StartGame.css';
 import { useNavigate } from 'react-router';
 
 const StartGame = () => {

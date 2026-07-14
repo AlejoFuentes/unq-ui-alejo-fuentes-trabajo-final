@@ -1,4 +1,3 @@
-import './EndGame.css';
 import { useState, useEffect } from 'react';
 import { obtenerLeaderboard } from '../services/storage'; 
 

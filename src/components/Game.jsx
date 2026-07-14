@@ -1,4 +1,3 @@
-import './Game.css';
 import EndGame from './EndGame'
 import { useState, useEffect, useRef } from 'react'; 
 import { validarPalabra } from '../services/api';
@@ -92,7 +91,7 @@ const Game = () => {
   const reiniciarPartida = () => {
     juegoTerminadoRef.current = false;
     setEstadoDelJuego('inicio');
-    setTiempoRestante(3);
+    setTiempoRestante(15);
     setPuntaje(0);
     setPalabrasUsadas([]);
     setPalabraActual('');
@@ -146,7 +145,9 @@ const Game = () => {
             {loading ? 'Enviando...' : 'Enviar'}
           </button>
         </form>
-        {error && <div className='text-danger text-start mt-2 px-3 w-100 mx-auto' style={{ maxWidth: '400px' }}>{error}</div>}
+        <div className='text-danger text-start mt-2 px-3 w-100 mx-auto' style={{ maxWidth: '500px', minHeight: '24px' }}>
+          {error}
+        </div>
         
         {palabrasUsadas.length > 0 && (
           <div className='mt-5 w-100 px-3 mx-auto' style={{ maxWidth: '800px' }}>
