@@ -2,6 +2,7 @@ import './Game.css';
 import { useState, useEffect } from 'react'; 
 import { validarPalabra } from '../services/api';
 import { useNavigate } from 'react-router';
+import { guardarPuntaje } from '../services/leaderboard';
 
 const Game = () => {
 
@@ -19,6 +20,7 @@ const Game = () => {
     if (estadoDelJuego !== 'jugando') return;
 
     if (tiempoRestante === 0) {
+      guardarPuntaje(puntaje, palabrasUsadas.length);
       navigate('/end', { 
         state: { 
           puntaje: puntaje, 

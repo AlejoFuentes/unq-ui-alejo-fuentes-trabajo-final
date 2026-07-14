@@ -7,10 +7,10 @@ const StartGame = () => {
 
   return (
     <div className='h-100 align-items-center justify-content-center d-flex flex-column'>
-      <h1 className='mb-5 fw-bold'>Palabras Encadenadas</h1>
+      <h1 className='mb-5 fw-bold'>* Palabras Encadenadas *</h1>
       <div className='d-flex text-center'>
         <p>Formá la cadena de palabras más larga posible antes de que se acabe el tiempo! <br />
-          Tenés 15 segundos para ingresar una palabra que empiece con la última letra de la palabra anterior. <br />
+          Tenés <strong>15 segundos</strong> para ingresar una palabra que empiece con la última letra de la palabra anterior. <br />
         </p>
       </div>
       <h2 className='mt-3'>¿Estás listo para jugar?</h2>
