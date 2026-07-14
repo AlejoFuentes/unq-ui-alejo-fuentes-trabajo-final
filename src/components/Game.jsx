@@ -8,7 +8,7 @@ import { guardarPuntaje } from '../services/leaderboard';
 const Game = () => {
 
   const [estadoDelJuego, setEstadoDelJuego] = useState('inicio'); // El estado puede ser 'inicio', 'jugando' o 'finalizado' 
-  const [tiempoRestante, setTiempoRestante] = useState(3); 
+  const [tiempoRestante, setTiempoRestante] = useState(15); 
   const [puntaje, setPuntaje] = useState(0); 
   const [palabraActual, setPalabraActual] = useState(''); 
   const [palabrasUsadas, setPalabrasUsadas] = useState([]);
@@ -75,7 +75,7 @@ const Game = () => {
       if(data.exists) {
         setPalabrasUsadas([...palabrasUsadas, palabraLimpia]);
         setPuntaje(puntaje + palabraLimpia.length);
-        setTiempoRestante(3);
+        setTiempoRestante(15);
         setEstadoDelJuego('jugando');
         setPalabraActual('');
         setError('');
@@ -109,9 +109,17 @@ const Game = () => {
         />
       ) : (
       <div className="h-100 align-items-center justify-content-center d-flex flex-column">
-        <div className='w-50 d-flex align-items-center justify-content-between mb-4'>
-          <div className='fs-3 text-muted'>Puntaje: <span className='text-black fs-2'>{puntaje}</span></div>
-          <div className='fs-3 text-muted'>Tiempo: <span className={tiempoRestante <= 5 ? 'text-danger fw-bold fs-2' : 'text-black fs-2'}>{tiempoRestante}s</span></div>
+        <div className='w-100 px-3 mx-auto d-flex align-items-center justify-content-between mb-4' style={{ maxWidth: '600px' }}>
+          <div className='fs-3 text-muted'>
+            <i className="bi bi-star-fill text-warning me-2"></i>
+            Puntaje <br />
+            <span className='d-flex justify-content-center text-black fs-2'>{puntaje}</span>
+          </div>
+          <div className='fs-3 text-muted'>
+            <i className="bi bi-stopwatch text-black me-2"></i>
+            Tiempo <br />
+            <span className={tiempoRestante <= 5 ? 'text-danger d-flex justify-content-center fw-bold fs-2' : 'text-black d-flex justify-content-center fs-2'}>{tiempoRestante}s</span>
+          </div>
         </div>
 
           {palabrasUsadas && palabrasUsadas.length > 0 ? (
@@ -126,7 +134,7 @@ const Game = () => {
             </h3>
           )}
 
-        <form className="d-flex gap-2 mt-4 w-25" onSubmit={handleIngresarPalabra}>
+        <form className="d-flex gap-2 mt-4 w-100 px-3 mx-auto" style={{ maxWidth: '500px' }} onSubmit={handleIngresarPalabra}>
           <input 
             className='form-control input-palabra shadow'
             type="text" 
@@ -138,10 +146,10 @@ const Game = () => {
             {loading ? 'Enviando...' : 'Enviar'}
           </button>
         </form>
-        {error && <div className='text-danger text-start mt-2 ms-2 w-25'>{error}</div>}
+        {error && <div className='text-danger text-start mt-2 px-3 w-100 mx-auto' style={{ maxWidth: '400px' }}>{error}</div>}
         
         {palabrasUsadas.length > 0 && (
-          <div className='mt-5 w-75 mx-auto'>
+          <div className='mt-5 w-100 px-3 mx-auto' style={{ maxWidth: '800px' }}>
             <div className='text-center m-1 fs-4 mb-3'>Palabras Encadenadas:</div>
 
             <div className="d-flex flex-wrap justify-content-center align-items-center gap-2 text-muted fs-5">

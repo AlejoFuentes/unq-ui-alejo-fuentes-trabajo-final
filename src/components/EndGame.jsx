@@ -11,19 +11,22 @@ const EndGame = ({ puntaje, palabrasEncadenadas, volverAJugar }) => {
     }, []);
 
     return (
-        <div className="h-100 align-items-center justify-content-center d-flex flex-column py-5">
+        <div className="min-vh-100 align-items-center justify-content-center d-flex flex-column py-5">
+            <i className="bi bi-alarm mb-3" style={{ fontSize: '50px'}}></i>
             <h1 className='mb-4 text-danger fw-bold'>¡Te quedaste sin tiempo!</h1>
-            <h4 className='text-muted'>Puntaje Final: <span className='text-black fw-bold fs-2 ms-2'>{puntaje}</span></h4>
+            <h4 className='text-muted'>Puntaje Final:<span className='text-black fw-bold fs-2 ms-2'>{puntaje}</span></h4>
             <h5 className='text-muted mt-2'>Lograste encadenar <span className='text-black fw-bold'>{palabrasEncadenadas}</span> palabras!</h5>
             
             <button className='btn btn-primary btn-lg mt-4 shadow px-4' onClick={volverAJugar}>
-                Jugar de nuevo
+                <i className="bi bi-arrow-repeat me-2"></i> Jugar de nuevo
             </button>
 
             {/* <-- LEADERBOARD --> */}
             {leaderboard.length > 0 && (
                 <div className="w-100 mt-5" style={{ maxWidth: '500px' }}>
-                    <h4 className="text-center text-secondary mb-3">Top 10 Histórico</h4>
+                    <h4 className="text-center text-secondary mb-3">
+                        <i className="bi bi-trophy-fill text-warning me-2"></i> Top 10 Histórico
+                    </h4>
                     <div className="card shadow-sm border-0">
                         <div className="card-body p-0">
                             <table className="table table-hover table-borderless mb-0">
