@@ -1,15 +1,8 @@
 import './EndGame.css';
-import { useNavigate, useLocation } from 'react-router';
 import { useState, useEffect } from 'react';
-import { obtenerLeaderboard } from '../services/storage'; // Importamos tu función
+import { obtenerLeaderboard } from '../services/storage'; 
 
-const EndGame = () => {
-
-    const location = useLocation();
-    const navigate = useNavigate();
-    
-    const puntaje = location.state?.puntaje || 0;
-    const palabrasEncadenadas = location.state?.palabrasEncadenadas || 0;
+const EndGame = ({ puntaje, palabrasEncadenadas, volverAJugar }) => {
     
     const [leaderboard, setLeaderboard] = useState([]);
 
@@ -23,7 +16,7 @@ const EndGame = () => {
             <h4 className='text-muted'>Puntaje Final: <span className='text-black fw-bold fs-2 ms-2'>{puntaje}</span></h4>
             <h5 className='text-muted mt-2'>Lograste encadenar <span className='text-black fw-bold'>{palabrasEncadenadas}</span> palabras!</h5>
             
-            <button className='btn btn-primary btn-lg mt-4 shadow px-4' onClick={() => navigate('/game')}>
+            <button className='btn btn-primary btn-lg mt-4 shadow px-4' onClick={volverAJugar}>
                 Jugar de nuevo
             </button>
 

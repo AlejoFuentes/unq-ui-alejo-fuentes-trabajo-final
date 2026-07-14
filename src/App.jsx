@@ -8,7 +8,6 @@ const App = () => {
       <Routes>
         <Route path="/" element={<StartGame />} />
         <Route path="/game" element={<Game />} />
-        <Route path="/end" element={<EndGame />} />
         <Route path='*' element={<Navigate to="/" replace />} />
       </Routes>
   );
