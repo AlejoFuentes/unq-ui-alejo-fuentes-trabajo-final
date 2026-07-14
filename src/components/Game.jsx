@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 const Game = () => {
 
   const [estadoDelJuego, setEstadoDelJuego] = useState('inicio'); // El estado puede ser 'inicio', 'jugando' o 'finalizado' 
-  const [tiempoRestante, setTiempoRestante] = useState(15); 
+  const [tiempoRestante, setTiempoRestante] = useState(3); 
   const [puntaje, setPuntaje] = useState(0); 
   const [palabraActual, setPalabraActual] = useState(''); 
   const [palabrasUsadas, setPalabrasUsadas] = useState([]);
@@ -69,7 +69,7 @@ const Game = () => {
       if(data.exists) {
         setPalabrasUsadas([...palabrasUsadas, palabraLimpia]);
         setPuntaje(puntaje + palabraLimpia.length);
-        setTiempoRestante(15);
+        setTiempoRestante(3);
         setEstadoDelJuego('jugando');
         setPalabraActual('');
         setError('');
@@ -87,7 +87,7 @@ const Game = () => {
     <div className="h-100 align-items-center justify-content-center d-flex flex-column">
       <div className='w-50 d-flex align-items-center justify-content-between mb-4'>
         <div className='fs-3 text-muted'>Puntaje: <span className='text-black fs-2'>{puntaje}</span></div>
-        <div className='fs-3 text-muted'>Tiempo: <span className='text-black fs-2'>{tiempoRestante}s</span></div>
+        <div className='fs-3 text-muted'>Tiempo: <span className={tiempoRestante <= 5 ? 'text-danger fw-bold fs-2' : 'text-black fs-2'}>{tiempoRestante}s</span></div>
       </div>
 
         {palabrasUsadas && palabrasUsadas.length > 0 ? (
