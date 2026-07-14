@@ -1,18 +1,45 @@
 import './Game.css';
 import { useState, useEffect } from 'react'; 
 import { validarPalabra } from '../services/api';
+import { useNavigate } from 'react-router';
 
 const Game = () => {
 
-  const [gameState, setGameState] = useState('inicio'); // El estado puede ser 'inicio', 'jugando' o 'finalizado' 
+  const [estadoDelJuego, setEstadoDelJuego] = useState('inicio'); // El estado puede ser 'inicio', 'jugando' o 'finalizado' 
   const [tiempoRestante, setTiempoRestante] = useState(15); 
   const [puntaje, setPuntaje] = useState(0); 
   const [palabraActual, setPalabraActual] = useState(''); 
   const [palabrasUsadas, setPalabrasUsadas] = useState([]);
   const [error, setError] = useState('');
-  
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (estadoDelJuego !== 'jugando') return;
+
+    if (tiempoRestante === 0) {
+      navigate('/end', { 
+        state: { 
+          puntaje: puntaje, 
+          palabrasEncadenadas: palabrasUsadas.length 
+        } 
+      });
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setTiempoRestante((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [tiempoRestante, estadoDelJuego, navigate, puntaje, palabrasUsadas.length]);
+
   const handleIngresarPalabra = async (e) => {
     e.preventDefault();
+
+    if (loading) return;
+
     const palabraLimpia = palabraActual.trim().toLowerCase();
     if (palabraLimpia === '') {
       setError('Por favor, ingresa una palabra.');
@@ -30,10 +57,12 @@ const Game = () => {
       const primeraLetra = palabraLimpia.charAt(0);
 
       if (primeraLetra !== ultimaLetra) {
-        setError(`La palabra debe empiezar con la letra '${ultimaLetra}'.`);
+        setError(`La palabra debe empiezar con la letra '${ultimaLetra.toUpperCase()}'.`);
         return;
       }
     }
+
+    setLoading(true);
 
     try {
       const data = await validarPalabra(palabraLimpia);
@@ -41,21 +70,24 @@ const Game = () => {
         setPalabrasUsadas([...palabrasUsadas, palabraLimpia]);
         setPuntaje(puntaje + palabraLimpia.length);
         setTiempoRestante(15);
+        setEstadoDelJuego('jugando');
         setPalabraActual('');
         setError('');
       } else {
-        setError('La palabra no es válida.');
+        setError('Esa palabra no es válida.');
       }
     } catch (error) {
       setError("Error al validar la palabra.");
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
     <div className="h-100 align-items-center justify-content-center d-flex flex-column">
       <div className='w-50 d-flex align-items-center justify-content-between mb-4'>
-        <div className='fs-3 text-muted'>Puntaje: <span className='text-black'>{puntaje}</span></div>
-        <div className='fs-3 text-muted'>Tiempo: <span className='text-black'>{tiempoRestante}s</span></div>
+        <div className='fs-3 text-muted'>Puntaje: <span className='text-black fs-2'>{puntaje}</span></div>
+        <div className='fs-3 text-muted'>Tiempo: <span className='text-black fs-2'>{tiempoRestante}s</span></div>
       </div>
 
         {palabrasUsadas && palabrasUsadas.length > 0 ? (
@@ -72,16 +104,34 @@ const Game = () => {
 
       <form className="d-flex gap-2 mt-4 w-25" onSubmit={handleIngresarPalabra}>
         <input 
-          className='form-control'
+          className='form-control input-palabra shadow'
           type="text" 
           value={palabraActual}
           onChange={(e) => setPalabraActual(e.target.value)}
           placeholder="Escribí una palabra..."
           />
-        <button className='btn btn-primary' type="submit">Enviar</button>
+        <button className='btn btn-primary shadow' type="submit" disabled={loading}>
+          {loading ? 'Enviando...' : 'Enviar'}
+        </button>
       </form>
-      {error && <div className='text-danger mt-2 text-start'>{error}</div>}
+      {error && <div className='text-danger text-start mt-2 ms-2 w-25'>{error}</div>}
       
+      {palabrasUsadas.length > 0 && (
+        <div className='mt-5 w-75 mx-auto'>
+          <div className='text-center m-1 fs-4 mb-3'>Palabras Encadenadas:</div>
+          
+          <div className="d-flex flex-wrap justify-content-center align-items-center gap-2 text-muted fs-5">
+            {palabrasUsadas.map((palabra, index) => (
+              <div key={index} className="d-flex align-items-center">
+                <span>{palabra.toUpperCase()}</span>
+                {index < palabrasUsadas.length - 1 && (
+                  <span className="ms-2">-&gt;</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

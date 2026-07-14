@@ -17,3 +17,8 @@ body, html {
 #root {
   height: 100%;
 }
+
+.input-palabra {
+  height: 50px;
+  border: 2px solid #2370c4 !important;
+}
